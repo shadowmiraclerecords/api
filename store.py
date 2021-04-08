@@ -4,7 +4,7 @@ from google.oauth2 import service_account
 
 
 # def lambda_handler(event, context):
-def store():
+def store(email):
     SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
     creds = service_account.Credentials.from_service_account_file('client_secret.json')
     service = discovery.build('sheets', 'v4', credentials=creds)
@@ -14,14 +14,8 @@ def store():
     value_input_option = 'RAW'
     major_dimension_option = "ROWS"
     insert_data_option = 'INSERT_ROWS'
-    # Assume the body is present
-    # loading = json.loads(event)
 
-    # value = [event['email']]
-
-    value = ['api@gmail.com']
-
-    # value = [loading['email']]
+    value = [email]
     value_range_body = {
         "majorDimension": major_dimension_option,
         "values": [value]
@@ -53,5 +47,5 @@ def store():
 
 
 # debug
-# if __name__ == '__main__':
-#     lambda_handler({"email": 'sweet'}, None)
+if __name__ == '__main__':
+    store('hmm@gmail.com')

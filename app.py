@@ -1,36 +1,20 @@
-# from flask import Flask
-
-# app = Flask(__name__)
-
-# @app.route('/')
-# def hello_world():
-#   return 'Hello from Flask!'
-
-# if __name__ == '__main__':
-#   app.run()
-
-
-from flask import Flask, request
-from flask_restful import Resource, Api
+from flask import Flask, request, jsonify
 from store import store
-import sys
-import os
-
 app = Flask(__name__)
-api = Api(app)
+
 port = 5100
+# Set the secret key to some random bytes. Keep this really secret!
+# app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
-if sys.argv.__len__() > 1:
-    port = sys.argv[1]
-print("Api running on port : {} ".format(port))
-
-class topic_tags(Resource):
-    def get(self):
-        print('testing')
-        store()
-        return {'hello': 'world world'}
-
-api.add_resource(topic_tags, '/')
+@app.route('/write', methods=['POST'])
+def write():
+    message = request.json
+    print('testing')
+    email = message.get('email', '')
+    print(email)
+    print('testing')
+    store(email)
+    return jsonify(message)
 
 
 if __name__ == '__main__':
